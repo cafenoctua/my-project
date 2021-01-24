@@ -1,0 +1,38 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest  # Ubuntu, Windows, macOSに対応している
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+    # usesはactionを参照する今回以下リンクのアクションを参照している
+    # https://github.com/actions/checkout
+    # actions用に書かれた.yamlを外部リポジトリから参照してそれを実行させることができる
+    # @以降はそのリポジトリのバージョンを指している
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      # javaを準備している
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew build
+  
+  publish:
+    needs: build  # 任意のジョブが成功するのを待つ
