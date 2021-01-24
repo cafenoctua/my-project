@@ -34,5 +34,5 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
   
-  publish:
-    needs: build  # 任意のジョブが成功するのを待つ
+  # publish:
+  #   needs: build  # 任意のジョブが成功するのを待つ
